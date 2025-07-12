@@ -1,6 +1,6 @@
 import { Permission, Query, Role } from "appwrite";
-import { APPWRITE_ARTICLES, APPWRITE_DB } from "../constants";
-import { account, database, ID } from "./appwrite";
+import { APPWRITE_ARTICLES, APPWRITE_DB, APPWRITE_STORAGE } from "../constants";
+import { account, database, ID, storage } from "./appwrite";
 
 
 export const singUp = (email: string, password: string) => {
@@ -32,4 +32,16 @@ export const createBlog = async (payload: any) => {
 }
 export const getBlogs=async()=>{
     return database.listDocuments(APPWRITE_DB, APPWRITE_ARTICLES,[Query.orderDesc('$createdAt'),Query.limit(10),Query.offset(0)]);
+}
+
+export const uploadFile=async(file:any,id:string)=>{
+    return  storage.createFile(
+    APPWRITE_STORAGE,
+    id,
+    file
+);
+}
+
+export const viewFile=(bucket_id:string,file_id:string)=>{
+    return storage.getFileView(bucket_id, file_id)
 }
